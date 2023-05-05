@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>핸드폰 번호 정리</title>
+</head>
+<body>
+	<h1>핸드폰 번호 정리</h1>
+	<form>
+		<label for="numbers">정리할 번호를 입력해주세요:</label><br>
+		<input type="text" id="numbers" name="numbers"><br>
+		<input type="button" value="정리" onclick="checkNumbers()">
+		<input type="button" value="지우기" onclick="resetForm()">
+	</form>
+	<p id="result"></p>
+
+	<script>
+		function checkNumbers() {
+			var input = document.getElementById("numbers").value;
+			var numbers = input.split(",");
+			var result = "";
+
+			for (var i = 0; i < numbers.length; i++) {
+				var number = numbers[i].trim();
+
+				if (/^010\d{8}$/.test(number)) {
+					number = "8210" + number.substr(3);
+				} else if (/^10\d{8}$/.test(number)) {
+					number = "8210" + number.substr(2);
+				} else if (/^8210\d{8}$/.test(number)) {
+					// do nothing
+				} else {
+					number = "잘못된형식의 번호입니다.";
+				}
+
+				result += number + "<br>";
+			}
+
+			document.getElementById("result").innerHTML = result;
+		}
+
+		function resetForm() {
+			document.getElementById("numbers").value = "";
+			document.getElementById("result").innerHTML = "";
+		}
+	</script>
+</body>
+</html>
