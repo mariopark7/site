@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Phone Number Formatter</title>
+</head>
+<body>
+	<h1>Phone Number Formatter</h1>
+	<form>
+		<label for="numbers">Enter phone numbers (one per line):</label><br>
+		<textarea id="numbers" name="numbers" rows="10" cols="30"></textarea><br>
+		<button type="button" onclick="formatNumbers()">Format</button><br>
+		<label for="formatted-numbers">Formatted numbers:</label><br>
+		<textarea id="formatted-numbers" name="formatted-numbers" rows="10" cols="30" readonly></textarea>
+	</form>
+	<script>
+		function formatNumbers() {
+			// Get the input numbers and split them into separate lines
+			var numbersInput = document.getElementById("numbers");
+			var numbers = numbersInput.value.trim().split("\n");
+
+			// Format each number and build a string of formatted numbers
+			var formattedNumbers = "";
+			for (var i = 0; i < numbers.length; i++) {
+				var formattedNumber = formatPhoneNumber(numbers[i]);
+				if (formattedNumber) {
+					formattedNumbers += formattedNumber + "\n";
+				}
+			}
+
+			// Set the formatted numbers in the output textarea
+			var formattedNumbersOutput = document.getElementById("formatted-numbers");
+			formattedNumbersOutput.value = formattedNumbers;
+		}
+
+		function formatPhoneNumber(number) {
+    // Remove any spaces or hyphens in the number
+    number = number.replace(/[\s-]/g, "");
+
+    // If the number starts with 010 and consists of 11 digits, change it to 8210
+    if (number.startsWith("010") && number.length == 11) {
+        return "8210" + number.substring(3);
+    }
+    // If the number starts with 10 and consists of 10 digits, add 82 in the front
+    else if (number.startsWith("10") && number.length == 10) {
+        return "8210" + number.substring(1);
+    }
+    // If the number is already valid, return it as is
+    else if (number.startsWith("8210") && number.length == 12) {
+        return number;
+    }
+    // If the number is in the form of 010-5899-3434, delete the hyphens and change 010 to 8210
+    else if (number.match(/^010\d{4}\d{4}$/)) {
+        return "8210" + number.substring(3).replace(/-/g, "");
+    }
+    // If the number is in the form of 010 5334 3411, delete the space and change 010 to 8210
+    else if (number.match(/^010\s*\d{4}\s*\d{4}$/)) {
+        return "8210" + number.substring(3).replace(/\s/g, "");
+    }
+    // Otherwise, return null to indicate an invalid number
+    else {
+        return null;
+    }
+}
+
+	</script>
+</body>
+</html>
