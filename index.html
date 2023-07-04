@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Keyword Analysis</title>
+  <style>
+    /* Add your CSS styles here */
+  </style>
+</head>
+<body>
+  <h1>Keyword Analysis</h1>
+  
+  <label for="text1">Text 1:</label>
+  <textarea id="text1" rows="5" cols="50"></textarea>
+  
+  <label for="text2">Text 2:</label>
+  <textarea id="text2" rows="5" cols="50"></textarea>
+  
+  <button onclick="analyzeKeywords()">Analyze</button>
+  <button onclick="resetFields()">Reset</button>
+  
+  <div id="results"></div>
+  
+  <script>
+    function analyzeKeywords() {
+      // Retrieve the values from the input boxes
+      var text1 = document.getElementById("text1").value;
+      var text2 = document.getElementById("text2").value;
+      
+      // Perform your keyword analysis and generate the results
+      var overlappingKeywords = findOverlappingKeywords(text1, text2);
+      var repeatedKeywords = findRepeatedKeywords(text1, text2);
+      var numParagraphs = countParagraphs(text1, text2);
+      var numSentences = countSentences(text1, text2);
+      var numWords = countWords(text1, text2);
+      
+      // Display the results
+      var resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = "<h2>Results</h2>" +
+                             "<p>Keywords Overlapping: " + overlappingKeywords.length + "</p>" +
+                             "<p>Repeated Keywords:</p>" +
+                             "<ul>" + repeatedKeywords.map(keyword => "<li>" + keyword + "</li>").join("") + "</ul>" +
+                             "<p>Number of Paragraphs: " + numParagraphs + "</p>" +
+                             "<p>Number of Sentences: " + numSentences + "</p>" +
+                             "<p>Number of Words: " + numWords + "</p>";
+    }
+    
+    function resetFields() {
+      // Clear the text in the input boxes and results
+      document.getElementById("text1").value = "";
+      document.getElementById("text2").value = "";
+      document.getElementById("results").innerHTML = "";
+    }
+    
+    function findOverlappingKeywords(text1, text2) {
+      // Perform your logic to find overlapping keywords
+      // Return an array of overlapping keywords
+      // Example implementation:
+      var keywords1 = text1.split(" ");
+      var keywords2 = text2.split(" ");
+      
+      var overlappingKeywords = keywords1.filter(keyword => keywords2.includes(keyword));
+      
+      return overlappingKeywords;
+    }
+    
+    function findRepeatedKeywords(text1, text2) {
+      // Perform your logic to find repeated keywords
+      // Return an array of repeated keywords
+      // Example implementation:
+      var allKeywords = (text1 + " " + text2).split(" ");
+      var keywordCounts = {};
+      
+      allKeywords.forEach(function(keyword) {
+        if (keywordCounts[keyword]) {
+          keywordCounts[keyword]++;
+        } else {
+          keywordCounts[keyword] = 1;
+        }
+      });
+      
+      var repeatedKeywords = Object.keys(keywordCounts).filter(keyword => keywordCounts[keyword] > 1);
+      
+      return repeatedKeywords;
+    }
+    
+    function countParagraphs(text1, text2) {
+      // Perform your logic to count paragraphs
+      // Return the number of paragraphs
+      // Example implementation:
+      var numParagraphs1 = text1.split(/\r?\n/).length;
+      var numParagraphs2 = text2.split(/\r?\n/).length;
+      
+      return numParagraphs1 + numParagraphs2;
+    }
+    
+    function countSentences(text1, text2) {
+      // Perform your logic to count sentences
+      // Return the number of sentences
+      // Example implementation:
+      var numSentences1 = text1.split(/[.!?]+/).length - 1;
+      var numSentences2 = text2.split(/[.!?]+/).length - 1;
+      
+      return numSentences1 + numSentences2;
+    }
+    
+    function countWords(text1, text2) {
+      // Perform your logic to count words
+      // Return the number of words
+      // Example implementation:
+      var numWords1 = text1.trim().split(/\s+/).length;
+      var numWords2 = text2.trim().split(/\s+/).length;
+      
+      return numWords1 + numWords2;
+    }
+  </script>
+</body>
+</html>
